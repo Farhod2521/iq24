@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f8ff;
+  --foreground: #0b1533;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dce7ff;
+  --color-brand-200: #bcd1ff;
+  --color-brand-300: #8fb1ff;
+  --color-brand-400: #5d8bff;
+  --color-brand-500: #3a6dff;
+  --color-brand-600: #1f55f5;
+  --color-brand-700: #1742d1;
+  --color-brand-800: #1835a6;
+  --color-navy: #0b1638;
+  --color-ink: #0b1533;
+  --color-muted: #5b6785;
+
+  --font-sans: var(--font-comic);
+  --font-hand: var(--font-caveat);
+
+  --shadow-card: 0 1px 2px rgb(15 35 95 / 0.04), 0 8px 28px -6px rgb(31 85 245 / 0.12);
+  --shadow-phone: 0 30px 60px -20px rgb(11 22 56 / 0.35), 0 12px 24px -12px rgb(31 85 245 / 0.25);
+
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* admin panel: toast slides in from the right, dialogs pop in */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes toast-timer {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-float {
+    animation: none;
+  }
+}
+
+/* KaTeX maths inside question text: same visual size as the surrounding words, stacked fractions get room */
+.math-tex .katex {
+  font-size: 1.1em;
+}
+.math-tex {
+  display: inline-block;
+  margin: 0.15em 0;
+  vertical-align: middle;
+}
+.math-tex .katex .mfrac .frac-line {
+  border-bottom-width: 0.06em;
+}
+
+/* sketches inside the detailed notebook solution: drawn in pen ink and handwriting, on the squared paper */
+.nb-fig svg {
+  width: 100%;
+  height: auto;
+}
+.nb-fig svg > rect[fill="white"] {
+  fill: transparent;
+}
+.nb-fig svg text {
+  font-family: var(--font-hand), cursive;
+  font-size: 19px;
+  font-weight: 700;
+}
+.nb-fig svg [stroke="#0b1533"] {
+  stroke: #1e3a9e;
+}
+.nb-fig svg [fill="#0b1533"] {
+  fill: #1e3a9e;
+}
+
+/* ─── IQ24 logo (brand-logo.tsx) ─────────────────────────────────────────── */
+.iq24 {
+  position: relative;
+  display: inline-block;
+  aspect-ratio: 1774 / 887;
+  flex-shrink: 0;
+}
+.iq24-part {
+  position: absolute;
+}
+.iq24-cap-tilt {
+  position: absolute;
+  inset: 0;
+  transform-origin: 42% 88%; /* where the cap sits on the Q */
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+a:hover .iq24-cap-tilt,
+.iq24:hover .iq24-cap-tilt {
+  transform: translateY(-9%) rotate(-9deg);
+}
+/* a light sweeping across the letters, clipped to the logo's own shape */
+.iq24-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgb(255 255 255 / 0.55) 50%, transparent 62%);
+  background-size: 260% 100%;
+  background-position: 160% 0;
+  -webkit-mask: url(/brand/iq24.webp) center / 100% 100% no-repeat;
+  mask: url(/brand/iq24.webp) center / 100% 100% no-repeat;
+}
+
+.iq24-anim .iq24-letter {
+  animation: iq24-rise 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.iq24-anim .iq24-cap {
+  transform-origin: 42% 88%;
+  animation: iq24-cap 1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+}
+.iq24-anim .iq24-shine {
+  animation: iq24-shine 7s ease-in-out 1.45s infinite;
+}
+@keyframes iq24-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(38%) scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-7%) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes iq24-cap {
+  0% {
+    opacity: 0;
+    transform: translateY(-130%) rotate(-22deg) scale(0.9);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(6%) rotate(5deg) scale(1);
+  }
+  62% {
+    transform: translateY(-5%) rotate(-4deg);
+  }
+  78% {
+    transform: translateY(1.5%) rotate(2deg);
+  }
+  90% {
+    transform: translateY(-0.5%) rotate(-0.8deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes iq24-shine {
+  0% {
+    background-position: 160% 0;
+  }
+  16%,
+  100% {
+    background-position: -60% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .iq24-anim .iq24-letter,
+  .iq24-anim .iq24-cap,
+  .iq24-anim .iq24-shine {
+    animation: none;
+  }
+  .iq24-cap-tilt {
+    transition: none;
+  }
+}

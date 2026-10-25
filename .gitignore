@@ -1,0 +1,12 @@
+.env
+__pycache__/
+node_modules/
+.next/
+qanotai_back/media/
+backup/
+
+# local sample books and 3D models (copyrighted / large) — kept on this computer only
+/*.pdf
+/*.docx
+/*.glb
+*.tsbuildinfo
